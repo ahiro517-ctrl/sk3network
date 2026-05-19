@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sk3 人脈マップ(内部ビュー)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>sk3 人脈マップ</h1>
+      <span class="subtitle">意図の地図 / 内部ビュー</span>
+    </div>
+    <div class="actions">
+      <button id="reload-btn" title="スプレッドシートから再読み込み">再読み込み</button>
+    </div>
+  </header>
+
+  <aside class="sidebar">
+    <section class="panel">
+      <h2>フィルタ</h2>
+      <div class="filter-group">
+        <h3>立場</h3>
+        <label><input type="checkbox" data-filter="role" value="事務局" checked>事務局</label>
+        <label><input type="checkbox" data-filter="role" value="コアメン" checked>コアメン</label>
+        <label><input type="checkbox" data-filter="role" value="フォロワー" checked>フォロワー</label>
+      </div>
+      <div class="filter-group">
+        <h3>ノード種別</h3>
+        <label><input type="checkbox" data-filter="type" value="person" checked>人</label>
+        <label><input type="checkbox" data-filter="type" value="project" checked>プロジェクト</label>
+        <label><input type="checkbox" data-filter="type" value="theme" checked>テーマ</label>
+      </div>
+      <div class="filter-group">
+        <h3>テーマの状態</h3>
+        <label><input type="checkbox" data-filter="themeState" value="募集中" checked>募集中</label>
+        <label><input type="checkbox" data-filter="themeState" value="実現した" checked>実現した</label>
+        <label><input type="checkbox" data-filter="themeState" value="終了">終了</label>
+      </div>
+    </section>
+
+    <section class="panel" id="hints-panel">
+      <h2>俯瞰のヒント</h2>
+      <div id="hints"></div>
+    </section>
+
+    <section class="panel" id="legend-panel">
+      <h2>凡例</h2>
+      <ul class="legend">
+        <li><span class="dot role-staff"></span>事務局</li>
+        <li><span class="dot role-core"></span>コアメン</li>
+        <li><span class="dot role-follower"></span>フォロワー</li>
+        <li><span class="sq solid"></span>公式プロジェクト</li>
+        <li><span class="sq dashed"></span>非公式プロジェクト</li>
+        <li><span class="diamond"></span>テーマ</li>
+        <li><span class="line-thick"></span>コア</li>
+        <li><span class="line-thin"></span>メンバー</li>
+        <li><span class="line-dotted"></span>関心あり</li>
+      </ul>
+    </section>
+  </aside>
+
+  <main class="canvas-wrap">
+    <svg id="graph"></svg>
+    <div id="status" class="status"></div>
+  </main>
+
+  <aside class="details" id="details" aria-hidden="true">
+    <button class="close-btn" id="details-close">×</button>
+    <div id="details-body"></div>
+  </aside>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

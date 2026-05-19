@@ -1,0 +1,5 @@
+.DS_Store
+*.log
+
+# ローカル設定(スプレッドシート ID を含むため非公開)
+web/config.js
