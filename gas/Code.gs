@@ -150,11 +150,11 @@ function applyValidations_(ss) {
   setListValidation_(relations, '対象種別', ENUMS.対象種別);
   setListValidation_(relations, '関わり方', ENUMS.関わり方);
   setRangeValidation_(relations, '人ID', people, 'ID');
-  // 対象ID は対象種別に応じて参照先が変わるため、ここでは「プロジェクト ID と テーマ ID の和集合」を参照
-  setUnionRangeValidation_(relations, '対象ID', [
-    { sheet: projects, headerName: 'ID' },
-    { sheet: themes, headerName: 'ID' },
-  ]);
+  // 対象ID は プロジェクト/テーマ どちらも参照しうるため、データ入力規則は付けず
+  // ヘッダにメモを付ける。整合性は「sk3 > データ点検」で実態をチェック。
+  annotateHeader_(relations, '対象ID',
+    'プロジェクト ID または テーマ ID を入れる(例: PJ001, T001)。\n' +
+    '存在しない ID は sk3 > データ点検 で警告される。');
 }
 
 function setListValidation_(sheet, headerName, list) {
@@ -181,18 +181,11 @@ function setRangeValidation_(sheet, headerName, refSheet, refHeaderName) {
   range.setDataValidation(rule);
 }
 
-/** 複数の範囲を参照プルダウンにする代替(SpreadsheetApp は union 非対応のため allowInvalid で許容) */
-function setUnionRangeValidation_(sheet, headerName, refs) {
+/** ヘッダセルにノート(コメント)を付ける */
+function annotateHeader_(sheet, headerName, note) {
   const col = colIndex_(sheet, headerName);
   if (!col) return;
-  const range = sheet.getRange(2, col, sheet.getMaxRows() - 1, 1);
-  // ヘルプテキストでガイドし、検証はゆるく(validateData で実態チェック)
-  const rule = SpreadsheetApp.newDataValidation()
-    .requireTextIsNotEmpty()
-    .setAllowInvalid(true)
-    .setHelpText('プロジェクト ID または テーマ ID を入れる(例: PJ001, T001)')
-    .build();
-  range.setDataValidation(rule);
+  sheet.getRange(1, col).setNote(note);
 }
 
 function colIndex_(sheet, headerName) {
