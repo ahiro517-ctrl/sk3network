@@ -15,7 +15,7 @@
   }
 
   const csvUrl = (gid) =>
-    `https://docs.google.com/spreadsheets/d/${cfg.spreadsheetId}/export?format=csv&gid=${gid}`;
+    `https://docs.google.com/spreadsheets/d/${cfg.spreadsheetId}/gviz/tq?tqx=out:csv&gid=${gid}`;
 
   // ---------- 状態 ----------
   const state = {
